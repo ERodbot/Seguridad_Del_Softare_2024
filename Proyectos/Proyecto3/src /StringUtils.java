@@ -33,16 +33,24 @@ public final class StringUtils {
         // Utility class
     }
 
-
+    /*
+    //@ ensures \result.length() >= a.length() || \result.length() >= b.length();
+    //@ ensures (\exists int i; 0 <= i && i <= \result.length() - a.length(); \result.substring(i, i + a.length()).equals(a));
+    //@ ensures (\exists int i; 0 <= i && i <= \result.length() - b.length(); \result.substring(i, i + b.length()).equals(b));
+    */
     public static String join(String a, String b) {
         return join(new String[] { a, b });
     }
-
-
+    /*
+    // @ requires array != null;
+    // @ ensures \result != null;
+    // @ ensures \result.length() == 0 || array.length > 0;
+    */
     public static String join(String[] array) {
         if (array == null) {
             return EMPTY_STRING;
         }
+        
         return join(Arrays.asList(array));
     }
 
@@ -84,7 +92,7 @@ public final class StringUtils {
         join(Arrays.asList(array), separator, function, sb);
     }
 
-
+  
     public static <T> void join(Iterable<T> iterable, char separator, Function<T,String> function, StringBuilder sb) {
         if (iterable == null) {
             return;
@@ -110,13 +118,22 @@ public final class StringUtils {
      * @param s The string to split by commas.
      *
      * @return An array of String values.
-     */
+     
+    // @ requires s.trim().length() > 0;
+    // @ ensures \result.length <= s.length();
+    // @ ensures (\forall int i; 0 <= i && i < \result.length; \result[i] != null && \result[i].trim().equals(\result[i]));
+    */
     public static String[] splitCommaSeparated(String s) {
         if (s == null || s.length() == 0) {
             return new String[0];
         }
-
+        
         String[] splits = s.split(",");
+        /*
+         // @ maintaining 0 <= i && i <= splits.length;
+         // @ maintaining (\forall int j; 0 <= j && j < i; splits[j] != null && splits[j].trim().equals(splits[j]));
+         // @ decreases splits.length - i;
+         */
         for (int i = 0; i < splits.length; ++i) {
             splits[i] = splits[i].trim();
         }
@@ -128,20 +145,14 @@ public final class StringUtils {
 /**
  * Archivo de recurso
  * 
- * [ ] 8 postcondiciones // @ ensures
- * [ ] 8 precondiciones
- * [ ] 4 invariantes
- * [ ] 4 aserciones
- * [ ] 2 Ciclos (En caso de no haber) hacer dos más en las anteriores
+ * [ ] 5/8 postcondiciones // @ ensures
+ * [ ] 2/8 precondiciones
+ * [ ] 0/4 invariantes
+ * [ ] 0/4 aserciones
+ * [ ] 1/2 Ciclos (En caso de no haber) hacer dos más en las anteriores
  * 
- * Documentacion
- * Responder a 
- 1) ¿Considera que usando OpenJML descubrió todos los posibles problemas? ¿Está segura(o)
-de que el código es correcto después de aplicar los cambios?
- * 
- 2) ¿Que cambios sugeriría para mejorar tanto la herramienta (OpenJML) como el lenguaje
-(JML)?
-
-3) ¿Cuál considera que es el rol de herramientas como OpenJML en el descubrimiento de
-vulnerabilidades en software ampliamente usado?
+ * Preguntas
+ * ¿Por qué si uno lo corre con -esc da más errores? ¿Podríamos correrlo sin eso?
+ * ¿Si es una biblioteca de stringUtils, cómo podemos garantizar el fundamento en el RFC?
+ * ¿Cuentan las precondiciones y postcondiciones repetidas? a!= null
  */

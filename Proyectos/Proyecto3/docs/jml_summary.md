@@ -1,6 +1,7 @@
 Made by: Esteban Leiva M
 # OpenJML summary
-
+> Command to execute: 
+>`./openjml ~/Repositories/Seguridad_Del_Softare_2024/Proyectos/Proyecto3/src\ /StringUtils.java`
 ### Sintax
 ```java
 public class Z{
