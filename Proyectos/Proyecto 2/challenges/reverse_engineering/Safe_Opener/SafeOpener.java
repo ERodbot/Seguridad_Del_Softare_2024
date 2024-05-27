@@ -7,8 +7,7 @@ public class SafeOpener {
         String encodedkey = "";
         String key = "";
         int i = 0;
-        boolean isOpen;
-        
+        boolean isOpen; 
 
         while (i < 3) {
             System.out.print("Enter password for the safe: ");

